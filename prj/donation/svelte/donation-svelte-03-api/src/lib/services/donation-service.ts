@@ -1,5 +1,6 @@
 import axios from "axios";
-import type { Candidate, Donation, Session, User } from "./donation-types";
+import type { Session, User } from "$lib/types/donation-types";
+import type { Candidate, Donation } from "$lib/types/donation-types";
 
 export const donationService = {
   baseUrl: "http://localhost:4000",

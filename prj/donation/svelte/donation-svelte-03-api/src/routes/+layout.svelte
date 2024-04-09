@@ -5,10 +5,9 @@
 </script>
 
 <div class="container">
-  {#if $currentSession?.name}
+  {#if $currentSession?.token}
     <Menu />
     <Heading />
   {/if}
   <slot />
 </div>
-

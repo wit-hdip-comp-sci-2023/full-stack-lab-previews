@@ -1,6 +1,6 @@
 <script lang="ts">
   import { donationService } from "$lib/services/donation-service";
-  import type { Candidate, Donation } from "$lib/services/donation-types";
+  import type { Candidate, Donation } from "$lib/types/donation-types";
   import { currentSession } from "$lib/stores";
   import Coordinates from "$lib/ui/Coordinates.svelte";
   import { get } from "svelte/store";
@@ -75,5 +75,3 @@
     {message}
   </div>
 </div>
-
-

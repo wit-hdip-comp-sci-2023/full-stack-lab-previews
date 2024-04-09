@@ -1,6 +1,6 @@
 <script lang="ts">
   import { donationService } from "$lib/services/donation-service";
-  import type { Donation } from "$lib/services/donation-types";
+  import type { Donation } from "$lib/types/donation-types";
   import { currentSession, subTitle } from "$lib/stores";
   import Card from "$lib/ui/Card.svelte";
   import DonationList from "$lib/ui/DonationList.svelte";
@@ -17,5 +17,3 @@
 <Card title="Donations">
   <DonationList {donations} />
 </Card>
-
-
