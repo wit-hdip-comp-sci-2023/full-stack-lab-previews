@@ -1,0 +1,7 @@
+/json
+public-site
+package-lock.json
+node_modules
+html
+.svelte-kit
+
