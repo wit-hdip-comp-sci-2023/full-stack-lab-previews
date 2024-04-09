@@ -1,31 +1,26 @@
 <script lang="ts">
-  import type { Candidate, Donation } from "$lib/services/donation-types";
   import { currentSession, latestDonation, subTitle } from "$lib/stores";
-  import DonationList from "$lib/ui/DonationList.svelte";
-  import Card from "$lib/ui/Card.svelte";
-  import { onMount } from "svelte";
-  import { donationService } from "$lib/services/donation-service";
-  import { get } from "svelte/store";
   import DonateForm from "./DonateForm.svelte";
-  import { generateByCandidate } from "$lib/services/donation-utils";
+  import Card from "$lib/ui/Card.svelte";
+  import { donationService } from "$lib/services/donation-service";
+  import { onMount } from "svelte";
+  import { get } from "svelte/store";
+  import type { Candidate, Donation } from "$lib/types/donation-types";
+  import DonationList from "$lib/ui/DonationList.svelte";
 
-  let donations: Donation[] = [];
   let candidateList: Candidate[] = [];
-  let byCandidate: any;
-
+  let donations: Donation[] = [];
   subTitle.set("Make a Donation");
 
   onMount(async () => {
     candidateList = await donationService.getCandidates(get(currentSession));
     donations = await donationService.getDonations(get(currentSession));
-    byCandidate = generateByCandidate(donations, candidateList);
   });
 
   latestDonation.subscribe(async (donation) => {
     if (donation) {
       donations.push(donation);
       donations = [...donations];
-      byCandidate = generateByCandidate(donations, candidateList);
     }
   });
 </script>
