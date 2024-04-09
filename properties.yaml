@@ -4,3 +4,5 @@ auth: 1
 icon:
   type: la:server
   color: 2D5BA6
+ignorepin: 2125
+ignore:
