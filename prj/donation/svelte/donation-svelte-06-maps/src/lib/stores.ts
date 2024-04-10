@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
-import type { Donation, Session } from "./services/donation-types";
+import type { Donation, Session } from "$lib/types/donation-types";
 
 export const currentSession = writable<Session>();
-export const latestDonation = writable<Donation>();
 export const subTitle = writable<string>();
+export const latestDonation = writable<Donation>();

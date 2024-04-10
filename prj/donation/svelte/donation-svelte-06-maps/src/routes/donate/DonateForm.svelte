@@ -1,6 +1,6 @@
 <script lang="ts">
   import { donationService } from "$lib/services/donation-service";
-  import type { Candidate, Donation } from "$lib/services/donation-types";
+  import type { Candidate, Donation } from "$lib/types/donation-types";
   import { currentSession, latestDonation } from "$lib/stores";
   import Coordinates from "$lib/ui/Coordinates.svelte";
   import { get } from "svelte/store";
@@ -25,8 +25,7 @@
           candidate: selectedCandidate,
           lat: lat,
           lng: lng,
-          donor: $currentSession.name,
-          _id: ""
+          donor: $currentSession._id
         };
         const success = await donationService.donate(donation, get(currentSession));
         if (!success) {

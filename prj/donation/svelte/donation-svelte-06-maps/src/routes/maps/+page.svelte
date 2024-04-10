@@ -1,28 +1,23 @@
 <script lang="ts">
+  import { currentSession, subTitle } from "$lib/stores";
+  import { donationService } from "$lib/services/donation-service";
   import Card from "$lib/ui/Card.svelte";
   import LeafletMap from "$lib/ui/LeafletMap.svelte";
   import { onMount } from "svelte";
-  import type { Donation } from "$lib/services/donation-types";
+  import type { Donation } from "$lib/types/donation-types";
   import { get } from "svelte/store";
-  import { donationService } from "$lib/services/donation-service";
-  import { currentSession, subTitle } from "$lib/stores";
 
+  subTitle.set("Donations Geo Data");
   let map: LeafletMap;
-  let donations: Donation[] = [];
-
-  subTitle.set("Donations Locations");
 
   onMount(async () => {
-    donations = await donationService.getDonations(get(currentSession));
-    for (let i = 0; i < donations.length; i++) {
-      const donation = donations[i];
-      let popup = `€${donation.amount}`;
+    const donations = await donationService.getDonations(get(currentSession));
+    donations.forEach((donation: Donation) => {
       if (typeof donation.candidate !== "string") {
-        popup += ` donated for ${donation.candidate.firstName} ${donation.candidate.lastName}`;
+        const popup = `${donation.candidate.firstName} ${donation.candidate.lastName}: €${donation.amount}`;
+        map.addMarker(donation.lat, donation.lng, popup);
       }
-      await map.addMarker(donation.lat, donation.lng, popup);
-    }
-
+    });
     const lastDonation = donations[donations.length - 1];
     if (lastDonation) map.moveTo(lastDonation.lat, lastDonation.lng);
   });

@@ -12,7 +12,6 @@
   async function login() {
     console.log(`attemting to log in email: ${email} with password: ${password}`);
     let session = await donationService.login(email, password);
-
     if (session) {
       currentSession.set(session);
       localStorage.donation = JSON.stringify(session);

@@ -2,6 +2,7 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import type { Control, Map as LeafletMap } from "leaflet";
+  import L from "leaflet";
 
   export let id = "home-map-id";
   export let height = 80;
@@ -22,9 +23,6 @@
         maxZoom: 17,
         attribution:
           'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-      }),
-      Satellite: leaflet.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-        attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
       })
     };
     let defaultLayer = baseLayers[activeLayer];
@@ -37,10 +35,9 @@
     control = leaflet.control.layers(baseLayers, overlays).addTo(imap);
   });
 
-  export async function addMarker(lat: number, lng: number, popupText: string) {
-    const leaflet = await import("leaflet");
-    const marker = leaflet.marker([lat, lng]).addTo(imap);
-    const popup = leaflet.popup({ autoClose: false, closeOnClick: false });
+  export function addMarker(lat: number, lng: number, popupText: string) {
+    const marker = L.marker([lat, lng]).addTo(imap);
+    const popup = L.popup({ autoClose: false, closeOnClick: false });
     popup.setContent(popupText);
     marker.bindPopup(popup);
   }
