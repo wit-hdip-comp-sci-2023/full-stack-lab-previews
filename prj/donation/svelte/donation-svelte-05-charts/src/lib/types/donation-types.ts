@@ -1,16 +1,16 @@
-export type User = {
+export interface Session {
+  name: string;
+  _id: string;
+  token: string;
+}
+
+export interface User {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  _id: string;
-};
-
-export type Session = {
-  name: string;
-  _id: string;
-  token: string;
-};
+  _id?: string;
+}
 
 export interface Candidate {
   firstName: string;
@@ -23,7 +23,7 @@ export interface Donation {
   amount: number;
   method: string;
   candidate: Candidate | string;
-  donor: string;
+  donor: User | string;
   lat: number;
   lng: number;
 }

@@ -1,4 +1,4 @@
-import type { Candidate, DataSet, Donation } from "./donation-types";
+import type { Candidate, DataSet, Donation } from "$lib/types/donation-types";
 
 export function generateByMethod(donationList: Donation[]): DataSet {
   const totalByMethod: DataSet = {
@@ -39,8 +39,10 @@ export function generateByCandidate(donationList: Donation[], candidates: Candid
 
   candidates.forEach((candidate, i) => {
     donationList.forEach((donation) => {
-      if (donation.candidate._id == candidate._id) {
-        donationsByCandidate.datasets[0].values[i] += donation.amount;
+      if (typeof donation.candidate !== "string") {
+        if (donation.candidate._id == candidate._id) {
+          donationsByCandidate.datasets[0].values[i] += donation.amount;
+        }
       }
     });
   });
