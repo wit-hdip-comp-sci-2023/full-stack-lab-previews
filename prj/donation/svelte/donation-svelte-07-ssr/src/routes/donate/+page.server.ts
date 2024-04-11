@@ -1,20 +1,18 @@
 import { donationService } from "$lib/services/donation-service";
-import type { Session } from "$lib/services/donation-types";
-import { generateByCandidate } from "$lib/services/donation-utils";
+import type { Session } from "$lib/types/donation-types";
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ parent }) => {
-  const { session } = await parent();
-  const donations = await donationService.getDonations(session);
-  const candidates = await donationService.getCandidates(session);
-  return {
-    donations: donations,
-    candidates: candidates,
-    byCandidate: generateByCandidate(donations, candidates)
-  };
+export const load: PageServerLoad = async ({ cookies }) => {
+  const cookieStr = cookies.get("donation-user") as string;
+  if (cookieStr) {
+    const session = JSON.parse(cookieStr) as Session;
+    return {
+      donations: await donationService.getDonations(session!),
+      candidates: await donationService.getCandidates(session!)
+    };
+  }
 };
 
-/** @type {import('./$types').Actions} */
 export const actions = {
   donate: async ({ request, cookies }) => {
     const donationUser = cookies.get("donation-user") as string;

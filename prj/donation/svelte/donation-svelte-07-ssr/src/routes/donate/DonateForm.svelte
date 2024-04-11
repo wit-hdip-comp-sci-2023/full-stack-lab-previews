@@ -1,9 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import type { Candidate } from "$lib/services/donation-types";
+  import type { Candidate } from "$lib/types/donation-types";
   import Coordinates from "$lib/ui/Coordinates.svelte";
 
-  export let candidates: Candidate[] = [];
+  export let candidateList: Candidate[] = [];
 
   let lat = 52.160858;
   let lng = -7.15242;
@@ -28,7 +28,7 @@
     <label class="label" for="amount">Select Candidate:</label>
     <div class="select">
       <select name="candidate">
-        {#each candidates as candidate}
+        {#each candidateList as candidate}
           <option value={candidate._id}>{candidate.lastName},{candidate.firstName} </option>
         {/each}
       </select>
