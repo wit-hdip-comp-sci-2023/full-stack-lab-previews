@@ -12,7 +12,7 @@
 </script>
 
 <div class="container">
-  {#if $currentSession._id}
+  {#if $currentSession.token}
     <Menu />
     <Heading />
   {/if}

@@ -1,17 +1,28 @@
-import type { Candidate, Donation, Session } from "./donation-types";
-import { DonationMongoose } from "$lib/models/donation";
-import { CandidateMongoose } from "$lib/models/candidate";
-import { UserMongoose } from "$lib/models/user";
+import type { Session, User } from "$lib/types/donation-types";
+import type { Candidate, Donation } from "$lib/types/donation-types";
+import { userStore } from "$lib/models/mongo/user-store";
+import { donationStore } from "$lib/models/mongo/donation-store";
+import { candidateStore } from "$lib/models/mongo/candidate-store";
 
 export const donationService = {
+  async signup(user: User): Promise<boolean> {
+    try {
+      const newUser = await userStore.add(user);
+      return !!newUser;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
   async login(email: string, password: string): Promise<Session | null> {
     try {
-      const user = await UserMongoose.findOne({ email: email }).lean();
+      const user = await userStore.findBy(email);
       if (user !== null && user.password === password) {
         const session = {
           name: `${user.firstName} ${user.lastName}`,
-          token: "TOKEN",
-          _id: user._id.toString()
+          token: user._id!.toString(),
+          _id: user._id!.toString()
         };
         return session;
       }
@@ -22,38 +33,27 @@ export const donationService = {
     }
   },
 
-  async donate(donation: Donation, session: Session) {
+  async donate(donation: Donation) {
     try {
-      let newDonation = new DonationMongoose({ ...donation });
-      await newDonation.save();
-      newDonation = (await DonationMongoose.findOne({ _id: newDonation._id }).populate("candidate").lean()) as any;
-      return newDonation;
+      donationStore.add(donation);
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
 
-  async getCandidates(session: Session): Promise<Candidate[]> {
+  async getCandidates(): Promise<Candidate[]> {
     try {
-      let candidates = (await CandidateMongoose.find().lean()) as Candidate[];
-      candidates = JSON.parse(JSON.stringify(candidates));
-      return candidates;
+      const candidates = await candidateStore.find();
+      return JSON.parse(JSON.stringify(candidates));
     } catch (error) {
       return [];
     }
   },
 
-  async getDonations(session: Session): Promise<Donation[]> {
+  async getDonations(): Promise<Donation[]> {
     try {
-      let donations = (await DonationMongoose.find().populate("donor").populate("candidate")) as Donation[];
-      donations = JSON.parse(JSON.stringify(donations));
-      donations.forEach((donation) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        donation.donor = `${donation.donor.firstName} ${donation.donor.lastName}`;
-      });
-      return donations;
+      const donations = await donationStore.find();
+      return JSON.parse(JSON.stringify(donations));
     } catch (error) {
       return [];
     }

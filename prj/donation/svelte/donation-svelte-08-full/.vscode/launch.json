@@ -12,7 +12,7 @@
     },
 
     {
-      "type": "msedge",
+      "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome",
       "url": "http://127.0.0.1:5173",

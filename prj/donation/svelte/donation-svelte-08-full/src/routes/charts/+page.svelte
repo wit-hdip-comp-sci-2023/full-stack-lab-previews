@@ -5,7 +5,7 @@
   import { subTitle } from "$lib/stores";
   export let data: any;
 
-  subTitle.set("Donations to Date");
+  subTitle.set("Donations Data");
 </script>
 
 <div class="columns">

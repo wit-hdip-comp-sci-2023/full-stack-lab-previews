@@ -1,4 +1,4 @@
-import type { Session } from "$lib/services/donation-types";
+import type { Session } from "$lib/types/donation-types";
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = ({ cookies }) => {

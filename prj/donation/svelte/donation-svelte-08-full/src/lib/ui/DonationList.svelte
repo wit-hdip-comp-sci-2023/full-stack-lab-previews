@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Donation } from "$lib/services/donation-types";
+  import type { Donation } from "$lib/types/donation-types";
 
   export let donations: Donation[];
 </script>
@@ -26,7 +26,11 @@
           {/if}
         </td>
         <td>
-          {donation.donor}
+          {#if typeof donation.donor !== "string"}
+            {donation.donor.lastName}, {donation.donor.firstName}
+          {:else}
+            {donation.donor}
+          {/if}
         </td>
       </tr>
     {/each}
