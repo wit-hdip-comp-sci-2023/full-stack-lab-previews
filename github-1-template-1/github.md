@@ -1,3 +1,3 @@
-Donation Svelte 
+DonationHapi
 
-A tagged, consolidated repo of the donation-svelte versions
+A tagged, consolidated repo of the donation-hapi versions
