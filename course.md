@@ -1,4 +1,4 @@
-Full Stack Web Development
+Full Stack 1 Donation Labs
 
-javascript · node · apis · tdd · frameworks · front-end · svelte 
+Consolidated donation hapi & svelte labs
 
