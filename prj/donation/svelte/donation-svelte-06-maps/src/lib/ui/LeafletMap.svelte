@@ -2,7 +2,6 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import type { Control, Map as LeafletMap } from "leaflet";
-  import L from "leaflet";
 
   export let id = "home-map-id";
   export let height = 80;
